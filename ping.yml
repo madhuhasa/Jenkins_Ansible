@@ -1,5 +1,7 @@
 ---
 - hosts: dev
+  user: U65974
+  become: yes
   tasks:
     - name: Ping command
       ping:
