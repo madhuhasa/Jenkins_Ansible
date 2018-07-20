@@ -1,5 +1,15 @@
 ---
-- hosts: dev
+- hosts: localhost
   tasks:
-    - name: Ping command
-      ping:
+  - name: Check whether Java is installed or not
+    command: java -version
+    register: java_result
+  - debug: 
+      msg: "Failed - Java is not installed"
+    when: java_result is failed
+  - debug:
+      msg: "Success - Java is installed"
+    when: java_result is success
+  - name: install play_role_2 if java isn't installed
+    command: ansible-galaxy install --roles-path ../../ -r ../../requirements1.yml
+    when: java_result is failed
